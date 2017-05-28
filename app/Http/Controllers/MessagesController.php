@@ -17,9 +17,10 @@ class MessagesController extends Controller
     public function index()
     {
         $messages = Message::all();
+
         return view('messages.index', [
             'messages' => $messages,
-             ]);
+        ]);
     }
 
     /**
