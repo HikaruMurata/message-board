@@ -1,115 +1,144 @@
 [1mdiff --git a/app/Http/Controllers/MessagesController.php b/app/Http/Controllers/MessagesController.php[m
-[1mindex 968e2b5..b62fdf0 100644[m
+[1mindex 3f5bff3..95594d3 100644[m
 [1m--- a/app/Http/Controllers/MessagesController.php[m
 [1m+++ b/app/Http/Controllers/MessagesController.php[m
-[36m@@ -29,7 +29,11 @@[m [mclass MessagesController extends Controller[m
+[36m@@ -7,6 +7,8 @@[m [muse Illuminate\Http\Request;[m
+ use App\Http\Requests;[m
+ use App\Http\Controllers\Controller;[m
+ [m
+[32m+[m[32muse App\Message;[m[41m  [m
+[32m+[m
+ class MessagesController extends Controller[m
+ {[m
+     /**[m
+[36m@@ -29,9 +31,9 @@[m [mclass MessagesController extends Controller[m
+      * @return \Illuminate\Http\Response[m
       */[m
      public function create()[m
-     {[m
-[31m-        //[m
-[32m+[m[32m        $message = new Message;[m
-[32m+[m[41m        [m
-[32m+[m[32m        return view('messages.create', [[m
-[32m+[m[32m            'message' => $message,[m
-[32m+[m[32m        ]);[m
-     }[m
- [m
-     /**[m
-[36m@@ -40,7 +44,11 @@[m [mclass MessagesController extends Controller[m
+[31m-    {[m
+[32m+[m[32m   {[m
+         $message = new Message;[m
+[31m-        [m
+[32m+[m
+         return view('messages.create', [[m
+             'message' => $message,[m
+         ]);[m
+[36m@@ -44,14 +46,13 @@[m [mclass MessagesController extends Controller[m
+      * @return \Illuminate\Http\Response[m
       */[m
      public function store(Request $request)[m
-     {[m
-[31m-        //[m
-[32m+[m[32m        $message = new Message;[m
-[32m+[m[32m        $message->content = $request->content;[m
-[32m+[m[32m        $message->save();[m
-[32m+[m
-[32m+[m[32m        return redirect('/');[m
-     }[m
+[31m-    {[m
+[32m+[m[32m   {[m
+         $message = new Message;[m
+         $message->content = $request->content;[m
+         $message->save();[m
  [m
+         return redirect('/');[m
+     }[m
+[31m-[m
      /**[m
-[36m@@ -51,7 +59,11 @@[m [mclass MessagesController extends Controller[m
+      * Display the specified resource.[m
+      *[m
+[36m@@ -59,12 +60,12 @@[m [mclass MessagesController extends Controller[m
+      * @return \Illuminate\Http\Response[m
       */[m
      public function show($id)[m
-     {[m
-[31m-        //[m
-[32m+[m[32m        $message = Message::find($id);[m
-[32m+[m[41m        [m
-[32m+[m[32m        return view('messages.show', [[m
-[32m+[m[32m            'message' => $message,[m
-[32m+[m[32m            ]);[m
-     }[m
- [m
-     /**[m
-[36m@@ -62,7 +74,11 @@[m [mclass MessagesController extends Controller[m
-      */[m
-     public function edit($id)[m
-     {[m
-[31m-        //[m
-[32m+[m[32m        $message = Message::find($id);[m
+[31m-    {[m
+[32m+[m[32m     {[m
+         $message = Message::find($id);[m
+[31m-        [m
 [32m+[m
-[32m+[m[32m        return view('messages.edit', [[m
-[32m+[m[32m            'message' => $message,[m
+         return view('messages.show', [[m
+             'message' => $message,[m
+[31m-            ]);[m
 [32m+[m[32m        ]);[m
      }[m
  [m
      /**[m
-[36m@@ -74,7 +90,11 @@[m [mclass MessagesController extends Controller[m
+[36m@@ -74,7 +75,7 @@[m [mclass MessagesController extends Controller[m
+      * @return \Illuminate\Http\Response[m
       */[m
-     public function update(Request $request, $id)[m
-     {[m
-[31m-        //[m
-[32m+[m[32m        $message = Message::find($id);[m
-[32m+[m[32m        $message->content = $request->content;[m
-[32m+[m[32m        $message->save();[m
-[32m+[m
-[32m+[m[32m        return redirect('/');[m
+     public function edit($id)[m
+[31m-    {[m
+[32m+[m[32m   {[m
+         $message = Message::find($id);[m
+ [m
+         return view('messages.edit', [[m
+[36m@@ -98,6 +99,7 @@[m [mclass MessagesController extends Controller[m
+         return redirect('/');[m
      }[m
  [m
-     /**[m
-[36m@@ -85,7 +105,10 @@[m [mclass MessagesController extends Controller[m
-      */[m
-     public function destroy($id)[m
-     {[m
-[31m-        //[m
-[32m+[m[32m        $message = Message::find($id);[m
-[32m+[m[32m        $message->delete();[m
 [32m+[m
-[32m+[m[32m        return redirect('/');[m
-     }[m
-    [m
- }[m
+     /**[m
+      * Remove the specified resource from storage.[m
+      *[m
 [1mdiff --git a/resources/views/messages/create.blade.php b/resources/views/messages/create.blade.php[m
-[1mindex af212c3..708944c 100644[m
+[1mindex 708944c..a615fe1 100644[m
 [1m--- a/resources/views/messages/create.blade.php[m
 [1m+++ b/resources/views/messages/create.blade.php[m
-[36m@@ -3,5 +3,15 @@[m
+[36m@@ -3,7 +3,7 @@[m
  @section('content')[m
  [m
  <!-- ここにページ毎のコンテンツを書く -->[m
-[32m+[m[32m<h1>メッセージ新規作成ページ</h1>[m
-[32m+[m
-[32m+[m[32m    {!! Form::model($message, ['route' => 'messages.store']) !!}[m
-[32m+[m
-[32m+[m[32m        {!! Form::label('content', 'メッセージ:') !!}[m
-[32m+[m[32m        {!! Form::text('content') !!}[m
-[32m+[m
-[32m+[m[32m        {!! Form::submit('投稿') !!}[m
+[31m-<h1>メッセージ新規作成ページ</h1>[m
+[32m+[m[32m <h1>メッセージ新規作成ページ</h1>[m
+ [m
+     {!! Form::model($message, ['route' => 'messages.store']) !!}[m
+ [m
+[1mdiff --git a/resources/views/messages/edit.blade.php b/resources/views/messages/edit.blade.php[m
+[1mindex 66b4c82..4b66ab9 100644[m
+[1m--- a/resources/views/messages/edit.blade.php[m
+[1m+++ b/resources/views/messages/edit.blade.php[m
+[36m@@ -11,4 +11,7 @@[m
+         {!! Form::text('content') !!}[m
+ [m
+         {!! Form::submit('更新') !!}[m
 [32m+[m
 [32m+[m[32m    {!! Form::close() !!}[m
+[32m+[m
+ @endsection[m
+\ No newline at end of file[m
+[1mdiff --git a/resources/views/messages/index.blade.php b/resources/views/messages/index.blade.php[m
+[1mindex 2fe49d6..0cebb28 100644[m
+[1m--- a/resources/views/messages/index.blade.php[m
+[1m+++ b/resources/views/messages/index.blade.php[m
+[36m@@ -4,12 +4,14 @@[m
+ [m
+ <!-- ここにページ毎のコンテンツを書く -->[m
+ <h1>メッセージ一覧</h1>[m
+[31m-@if (count($messages) > 0)[m
+[31m-    <ul>[m
+[32m+[m
+[32m+[m[32m    @if (count($messages) > 0)[m
+[32m+[m[32m        <ul>[m
+             @foreach ($messages as $message)[m
+                 <li>{!! link_to_route('messages.show', $message->id, ['id' => $message->id]) !!} : {{ $message->content }}</li>[m
+             @endforeach[m
+[31m-    </ul>[m
+[31m-@endif[m
+[32m+[m[32m        </ul>[m
+[32m+[m[32m    @endif[m
+[32m+[m
  [m
  @endsection[m
 \ No newline at end of file[m
-[1mdiff --git a/resources/views/messages/edit.blade.php b/resources/views/messages/edit.blade.php[m
-[1mindex e69de29..66b4c82 100644[m
-[1m--- a/resources/views/messages/edit.blade.php[m
-[1m+++ b/resources/views/messages/edit.blade.php[m
-[36m@@ -0,0 +1,14 @@[m
-[32m+[m[32m@extends('layouts.app')[m
+[1mdiff --git a/resources/views/messages/show.blade.php b/resources/views/messages/show.blade.php[m
+[1mindex f12f326..d3c509c 100644[m
+[1m--- a/resources/views/messages/show.blade.php[m
+[1m+++ b/resources/views/messages/show.blade.php[m
+[36m@@ -5,12 +5,12 @@[m
+ <!-- ここにページ毎のコンテンツを書く -->[m
+ <h1>id = {{ $message->id }} のメッセージ詳細ページ</h1>[m
+ [m
+[31m-<p>{{ $message->content }}</p>[m
+[32m+[m[32m    <p>{{ $message->content }}</p>[m
+ [m
+     {!! link_to_route('messages.edit', 'このメッセージ編集', ['id' => $message->id]) !!}[m
 [32m+[m
-[32m+[m[32m@section('content')[m
-[32m+[m
-[32m+[m[32m<!-- ここにページ毎のコンテンツを書く -->[m
-[32m+[m[32m<h1>id: {{ $message->id }} のメッセージ編集ページ</h1>[m
-[32m+[m
-[32m+[m[32m    {!! Form::model($message, ['route' => ['messages.update', $message->id], 'method' => 'put']) !!}[m
+     {!! Form::model($message, ['route' => ['messages.destroy', $message->id], 'method' => 'delete']) !!}[m
+         {!! Form::submit('削除') !!}[m
+     {!! Form::close() !!}[m
+ [m
+[31m-[m
+ @endsection[m
+\ No newline at end of file[m

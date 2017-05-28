@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Message;  
+
 class MessagesController extends Controller
 {
     /**
@@ -29,9 +31,9 @@ class MessagesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
+   {
         $message = new Message;
-        
+
         return view('messages.create', [
             'message' => $message,
         ]);
@@ -44,14 +46,13 @@ class MessagesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+   {
         $message = new Message;
         $message->content = $request->content;
         $message->save();
 
         return redirect('/');
     }
-
     /**
      * Display the specified resource.
      *
@@ -59,12 +60,12 @@ class MessagesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
+     {
         $message = Message::find($id);
-        
+
         return view('messages.show', [
             'message' => $message,
-            ]);
+        ]);
     }
 
     /**
@@ -74,7 +75,7 @@ class MessagesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+   {
         $message = Message::find($id);
 
         return view('messages.edit', [
@@ -97,6 +98,7 @@ class MessagesController extends Controller
 
         return redirect('/');
     }
+
 
     /**
      * Remove the specified resource from storage.
