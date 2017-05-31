@@ -49,10 +49,12 @@ class MessagesController extends Controller
    {
         
         $this->validate($request, [
+            'title' => 'required|max:255',   // 追加
             'content' => 'required|max:255',
         ]);
         
         $message = new Message;
+        $message->title = $request->title;    // 追加
         $message->content = $request->content;
         $message->save();
 
@@ -98,10 +100,12 @@ class MessagesController extends Controller
     public function update(Request $request, $id)
     {
          $this->validate($request, [
+            'title' => 'required|max:255',   // 追加 
             'content' => 'required|max:255',
         ]);
         
         $message = Message::find($id);
+        $message->title = $request->title;    // 追加
         $message->content = $request->content;
         $message->save();
 
