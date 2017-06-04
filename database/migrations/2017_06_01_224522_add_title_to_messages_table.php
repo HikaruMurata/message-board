@@ -13,7 +13,7 @@ class AddTitleToMessagesTable extends Migration
     public function up()
     {
         Schema::table('messages', function (Blueprint $table) {
-            //
+            $table->string('title');
         });
     }
 
@@ -25,7 +25,7 @@ class AddTitleToMessagesTable extends Migration
     public function down()
     {
         Schema::table('messages', function (Blueprint $table) {
-            //
+            $table->dropColumn('title');
         });
     }
 }
